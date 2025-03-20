@@ -59,16 +59,14 @@ npm test
 
 ### 🛠️ Tech Stack
 
-Layer Technology
-Database 🍃 MongoDB Atlas (NoSQL)
-Backend 🟢 Node.js + Express
-Testing 🧪 Vitest + Supertest
+- Database 🍃 MongoDB Atlas (NoSQL)
+- Backend 🟢 Node.js + Express
+- Testing 🧪 Vitest + Supertest
 
 ### 📡 API Endpoints
 
-Endpoint Method Description
-/identify POST Identity resolution endpoint
-/contacts GET List all contacts (debug)
-/contacts/:id GET Get specific contact details
-/contacts POST Manual contact creation
-/contacts/:id DELETE Soft-delete contact
+- /identify POST Identity resolution endpoint
+- /contacts GET List all contacts (debug)
+- /contacts/:id GET Get specific contact details
+- /contacts POST Manual contact creation
+- /contacts/:id DELETE Soft-delete contact
