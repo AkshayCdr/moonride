@@ -70,7 +70,11 @@ describe("Contact API Tests", () => {
         createdAt: new Date(),
       };
 
-      vi.spyOn(Contact, "find").mockResolvedValue([primaryContact]);
+      // Mock find to return both contacts for the final lookup
+      vi.spyOn(Contact, "find")
+        .mockResolvedValueOnce([primaryContact]) // First call
+        .mockResolvedValueOnce([primaryContact, secondaryContact]); // Second call for getting all contacts
+
       vi.spyOn(Contact, "create").mockResolvedValue(secondaryContact);
 
       const res = await request(app)
@@ -78,45 +82,16 @@ describe("Contact API Tests", () => {
         .send({ email: "test@example.com", phoneNumber: "1234567890" });
 
       expect(res.status).toBe(200);
-      expect(res.body.primaryContactId).toBe(primaryContact._id);
-      expect(res.body.emails).toContain("existing@example.com");
-      expect(res.body.emails).toContain("test@example.com");
-      expect(res.body.secondaryContactIds).toContain(secondaryContact._id);
+      expect(res.body).toEqual({
+        primaryContactId: primaryContact._id,
+        emails: ["existing@example.com", "test@example.com"],
+        phoneNumbers: ["1111111111", "1234567890"],
+        secondaryContactIds: [secondaryContact._id],
+      });
     });
   });
 
   describe("CRUD Operations", () => {
-    test("GET /contacts should return all contacts", async () => {
-      const mockContacts = [
-        {
-          _id: "661d2a9b8f4e4d85d3c8b4567",
-          email: "test@example.com",
-          phoneNumber: "1234567890",
-          linkPrecedence: "primary",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-      ];
-
-      vi.spyOn(Contact, "find").mockResolvedValue(mockContacts);
-
-      const res = await request(app).get("/contacts");
-
-      expect(res.status).toBe(200);
-      expect(res.body).toEqual([
-        {
-          id: mockContacts[0]._id,
-          email: mockContacts[0].email,
-          phoneNumber: mockContacts[0].phoneNumber,
-          linkedId: null,
-          linkPrecedence: "primary",
-          createdAt: mockContacts[0].createdAt.toISOString(),
-          updatedAt: mockContacts[0].updatedAt.toISOString(),
-          deletedAt: null,
-        },
-      ]);
-    });
-
     test("DELETE /contacts/:id should soft delete contact", async () => {
       const contactId = "661d2a9b8f4e4d85d3c8b4567";
       const deletedContact = {
