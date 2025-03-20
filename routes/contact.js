@@ -2,7 +2,7 @@ import express from "express";
 
 const router = express.Router();
 
-router.post("/", async (req, res) => {
+router.post("/identify", async (req, res) => {
   try {
     const { email, phoneNumber } = req.body;
 

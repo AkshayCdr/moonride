@@ -13,7 +13,7 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
-app.use("/identify", contactRoutes);
+app.use("/contact", contactRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
