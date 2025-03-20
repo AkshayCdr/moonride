@@ -1,6 +1,7 @@
 import express from "express";
 import Contact from "../model/contact.js";
 import { identifyContact } from "../service/contactService.js";
+import { formatResponse } from "../utils/formatResponse.js";
 
 const router = express.Router();
 
@@ -18,6 +19,10 @@ router.post("/identify", async (req, res) => {
       email,
       phoneNumber
     );
+
+    const response = formatResponse(primary, allContacts, newSecondaryId);
+
+    res.json(response);
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Internal server error" });
