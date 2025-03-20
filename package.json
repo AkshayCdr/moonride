@@ -13,5 +13,12 @@
     "express": "^4.21.2",
     "mongoose": "^8.12.1"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "chai": "^5.2.0",
+    "mocha": "^11.1.0",
+    "sinon": "^19.0.4",
+    "sinon-chai": "^4.0.0",
+    "supertest": "^7.0.0"
+  }
 }
